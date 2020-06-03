@@ -20,6 +20,8 @@ void main() {
     final photo = PhotoRaw(
       id: 'test_id',
       authorName: 'test_user_name',
+      width: 120,
+      height: 340,
       urls: urls,
     );
 
@@ -39,6 +41,8 @@ void main() {
     final photo = PhotoRaw(
       id: 'test_id',
       authorName: 'test_user_name',
+      width: 120,
+      height: 340,
       urls: urls,
     );
 

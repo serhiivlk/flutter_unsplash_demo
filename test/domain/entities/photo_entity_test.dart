@@ -7,6 +7,8 @@ void main() {
     final photo1 = PhotoEntity(
       id: 'foo_id',
       authorName: 'foo_author_name',
+      width: 120,
+      height: 340,
       urls: PhotoUrls(
         thumbnail: 'foo_thumbnail',
         small: 'foo_small',
@@ -16,6 +18,8 @@ void main() {
     final photo2 = PhotoEntity(
       id: 'foo_id',
       authorName: 'foo_author_name',
+      width: 120,
+      height: 340,
       urls: PhotoUrls(
         thumbnail: 'foo_thumbnail',
         small: 'foo_small',

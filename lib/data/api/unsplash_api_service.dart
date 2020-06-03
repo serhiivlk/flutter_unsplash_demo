@@ -30,7 +30,8 @@ class UnsplashApiServiceImpl implements UnsplashApiService {
     if (response.statusCode == 200) {
       final list =
           (json.decode(response.body) as List).cast<Map<String, dynamic>>();
-      return list.map((e) => e.jsonToPhotoRaw());
+      var photos = list.map((e) => e.jsonToPhotoRaw()).toList();
+      return photos;
     } else {
       throw ServerException();
     }
