@@ -8,6 +8,14 @@ class UnsplashDemoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Unsplash Demo',
+      theme: ThemeData.light().copyWith(
+        accentColor: Colors.tealAccent,
+        primaryColor: Colors.teal,
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        accentColor: Colors.blueAccent,
+      ),
+      themeMode: ThemeMode.system,
       home: LatestPhotosPage(
         getLatestPhotos: injector(),
       ),

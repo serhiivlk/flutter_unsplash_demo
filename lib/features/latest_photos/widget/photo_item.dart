@@ -17,34 +17,33 @@ class PhotoItem extends StatelessWidget {
     final ratio = photo.width / photo.height;
     return Card(
       elevation: 4,
-      child: AspectRatio(
-        aspectRatio: ratio,
-        child: Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: <Widget>[
-            FullScreenWidget(
-              child: Hero(
-                tag: photo.urls.small,
+      child: Column(
+        children: <Widget>[
+          FullScreenWidget(
+            child: Hero(
+              tag: photo.urls.small,
+              child: AspectRatio(
+                aspectRatio: ratio,
                 child: CachedNetworkImage(
                   fit: BoxFit.contain,
                   imageUrl: photo.urls.small,
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.withAlpha(128),
-              ),
-              child: ListTile(
-                title: Text('by ' + photo.authorName),
-                subtitle: Text(
-                  photo.description,
-                  maxLines: 2,
-                ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+            ),
+            child: ListTile(
+              title: Text('by ' + photo.authorName),
+              subtitle: Text(
+                photo.description,
+                maxLines: 2,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
