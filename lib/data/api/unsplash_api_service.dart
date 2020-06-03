@@ -10,6 +10,8 @@ const _baseUrl = 'https://api.unsplash.com/';
 
 abstract class UnsplashApiService {
   Future<List<PhotoRaw>> getLatestPhotos();
+
+  Future<List<PhotoRaw>> getLatestPhotosPerPage(int page, int perPage);
 }
 
 class UnsplashApiServiceImpl implements UnsplashApiService {
@@ -20,8 +22,26 @@ class UnsplashApiServiceImpl implements UnsplashApiService {
   });
 
   @override
+  Future<List<PhotoRaw>> getLatestPhotosPerPage(int page, int perPage) async {
+    final url = _baseUrl + 'photos?page=$page&pageper_page=$perPage';
+    final response = await client.get(
+      url,
+      headers: {'Authorization': 'Client-ID ${ApiKeys.accessKey}'},
+    );
+
+    if (response.statusCode == 200) {
+      final list =
+          (json.decode(response.body) as List).cast<Map<String, dynamic>>();
+      var photos = list.map((e) => e.jsonToPhotoRaw()).toList();
+      return photos;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
   Future<List<PhotoRaw>> getLatestPhotos() async {
-    final url = _baseUrl + 'photos';
+    final url = _baseUrl + 'photos?per_page=30';
     final response = await client.get(
       url,
       headers: {'Authorization': 'Client-ID ${ApiKeys.accessKey}'},

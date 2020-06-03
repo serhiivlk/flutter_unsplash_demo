@@ -22,4 +22,17 @@ class UnsplashRepositoryImpl extends UnsplashRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<PhotoEntity>>> getLatestPhotosPerPage({
+    int page,
+    int pageSize,
+  }) async {
+    try {
+      final photos = await apiService.getLatestPhotosPerPage(page, pageSize);
+      return Right(photos);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

@@ -1,19 +1,19 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unsplash/domain/entities/photo_entity.dart';
-import 'package:unsplash/domain/error/failure.dart';
-import 'package:unsplash/domain/interactors/get_latest_photos.dart';
+import 'package:unsplash/features/latest_photos/bloc/latest_photos_bloc.dart';
+import 'package:unsplash/features/latest_photos/widget/latest_photo_body.dart';
 import 'package:unsplash/features/latest_photos/widget/photo_item.dart';
 import 'package:unsplash/features/phoho_detail/pages/photo_detail_page.dart';
+import 'package:unsplash/injector.dart';
 
 class LatestPhotosPage extends StatelessWidget {
-  final GetLatestPhotos getLatestPhotos;
+//  final GetLatestPhotos getLatestPhotos;
 
-  const LatestPhotosPage({
-    Key key,
-    @required this.getLatestPhotos,
-  }) : super(key: key);
+//  const LatestPhotosPage({
+//    Key key,
+//    @required this.getLatestPhotos,
+//  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +23,32 @@ class LatestPhotosPage extends StatelessWidget {
           'Latest Photos',
         ),
       ),
-      body: _buildBody(),
+      body: BlocProvider(
+        create: (context) => LatestPhotosBloc(
+          getLatestPhotosPerPage: injector(),
+        )..add(FetchNextPage()),
+        child: LatestPhotosBody(),
+      ),
     );
   }
 
-  Widget _buildBody() {
-    return FutureBuilder<Either<Failure, List<PhotoEntity>>>(
-      future: getLatestPhotos(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          final result = snapshot.data;
-          return result.fold(
-              (l) => _buildServerError(), (r) => _buildPhotosList(r));
-        } else {
-          return _buildLoading();
-        }
-      },
-    );
-  }
+//  Widget _buildBody() {
+//    return FutureBuilder<Either<Failure, List<PhotoEntity>>>(
+//      future: getLatestPhotos(),
+//      builder: (context, snapshot) {
+//        if (snapshot.connectionState == ConnectionState.done) {
+//          final result = snapshot.data;
+//          return result.fold(
+//              (l) => _buildServerError(), (r) => _buildPhotosList(r));
+//        } else {
+//          return _buildLoading();
+//        }
+//      },
+//    );
+//  }
 
   Widget _buildPhotosList(List<PhotoEntity> photos) {
+    print('lead size: ${photos.length}');
     return ListView.builder(
       itemCount: photos.length,
       itemBuilder: (context, index) {
