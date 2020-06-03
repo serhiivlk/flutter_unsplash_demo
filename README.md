@@ -1,16 +1,12 @@
-# unsplash
+# unsplash demo
 
-A new Flutter application.
+Simple project to view the latest photos from unsplash.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+create new file `lib/data/api/api_keys.dart` with your unsplash access key:
+```dart
+class ApiKeys {
+  static final accessKey = 'YOUR_ACCESS_KEY';
+}
+```
