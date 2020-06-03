@@ -19,6 +19,8 @@ dependencies:
   flutter_bloc: ^4.0.0
   cached_network_image: ^2.2.0+1
   get_it: ^4.0.2
+  transparent_image: ^1.0.0
+  full_screen_image: ^1.0.2
 
 dev_dependencies:
   flutter_test:

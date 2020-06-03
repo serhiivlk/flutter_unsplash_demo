@@ -6,14 +6,16 @@ class PhotoRaw extends PhotoEntity {
   PhotoRaw({
     @required String id,
     @required String authorName,
+    @required String description,
     @required int width,
     @required int height,
     @required PhotoUrlsRaw urls,
   }) : super(
-          id: id,
+    id: id,
           width: width,
           height: height,
           authorName: authorName,
+          description: description,
           urls: urls,
         );
 }
@@ -28,6 +30,7 @@ extension PhotoRawJsonConverter on Map<String, dynamic> {
       width: this['width'],
       height: this['height'],
       authorName: userMap['name'],
+      description: this['description'] ?? '',
       urls: urlsMap.jsonToPhotoUrlsRaw(),
     );
   }

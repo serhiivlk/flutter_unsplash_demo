@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:unsplash/domain/entities/photo_entity.dart';
 import 'package:unsplash/domain/error/failure.dart';
 import 'package:unsplash/domain/interactors/get_latest_photos.dart';
+import 'package:unsplash/features/latest_photos/widget/photo_item.dart';
+import 'package:unsplash/features/phoho_detail/pages/photo_detail_page.dart';
 
 class LatestPhotosPage extends StatelessWidget {
   final GetLatestPhotos getLatestPhotos;
@@ -46,24 +47,13 @@ class LatestPhotosPage extends StatelessWidget {
       itemCount: photos.length,
       itemBuilder: (context, index) {
         final photo = photos[index];
-        return _buildPhotoItem(photo);
+        return InkWell(
+          child: PhotoItem(
+            photo: photo,
+          ),
+//          onTap: () => _navigateToPhotoDetail(context, photo),
+        );
       },
-    );
-  }
-
-  Widget _buildPhotoItem(PhotoEntity photo) {
-    final ratio = photo.width / photo.height;
-    return Card(
-      elevation: 4,
-      child: AspectRatio(
-        aspectRatio: ratio,
-        child: CachedNetworkImage(
-          placeholder: (context, url) {
-            return CircularProgressIndicator();
-          },
-          imageUrl: photo.urls.small,
-        ),
-      ),
     );
   }
 
@@ -76,6 +66,18 @@ class LatestPhotosPage extends StatelessWidget {
   Widget _buildLoading() {
     return Center(
       child: CircularProgressIndicator(),
+    );
+  }
+
+  void _navigateToPhotoDetail(BuildContext context, PhotoEntity photo) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            PhotoDetailPage(
+              photoUrl: photo.urls.full,
+            ),
+      ),
     );
   }
 }
