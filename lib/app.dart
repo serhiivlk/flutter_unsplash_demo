@@ -5,6 +5,7 @@ class UnsplashDemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Unsplash Demo',
       theme: ThemeData.light().copyWith(
         accentColor: Colors.tealAccent,

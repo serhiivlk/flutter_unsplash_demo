@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unsplash/domain/entities/photo_entity.dart';
 import 'package:unsplash/features/latest_photos/bloc/latest_photos_bloc.dart';
 import 'package:unsplash/features/latest_photos/widget/bottom_loading.dart';
 import 'package:unsplash/features/latest_photos/widget/photo_item.dart';
@@ -27,19 +28,17 @@ class _LatestPhotosBodyState extends State<LatestPhotosBody> {
     return BlocBuilder<LatestPhotosBloc, LatestPhotosState>(
       builder: (context, state) {
         print('state: $state');
-        if (state is Error) {
-          return _errorBody(state.message);
+
+        if (state.error.isNotEmpty) {
+          return _errorBody(state.error);
         }
-        if (state is Empty) {
-          return _emptyBody();
-        }
-        if (state is Loading) {
+        if (state.isLoading) {
           return _loadingBody();
         }
-        if (state is Loaded) {
-          return _listBody(state);
+        if (state.photos.isEmpty) {
+          return _emptyBody();
         }
-        throw Exception('Unknown state: $state');
+        return _listBody(state.photos, state.hasReachedEndOfResults);
       },
     );
   }
@@ -70,13 +69,22 @@ class _LatestPhotosBodyState extends State<LatestPhotosBody> {
         child: Text(message),
       );
 
-  Widget _listBody(Loaded state) => ListView.builder(
+//  Widget _listBody(Loaded state) => ListView.builder(
+//        itemBuilder: (context, index) {
+//          return index >= state.photos.length
+//              ? BottomLoading()
+//              : PhotoItem(photo: state.photos[index]);
+//        },
+//        itemCount: state.photos.length + (state.hasReachedEndOfResults ? 0 : 1),
+//        controller: _scrollController,
+//      );
+  Widget _listBody(List<PhotoEntity> photos, bool hasNext) => ListView.builder(
         itemBuilder: (context, index) {
-          return index >= state.photos.length
+          return index >= photos.length
               ? BottomLoading()
-              : PhotoItem(photo: state.photos[index]);
+              : PhotoItem(photo: photos[index]);
         },
-        itemCount: state.photos.length + (state.hasReachedEndOfResults ? 0 : 1),
+        itemCount: photos.length + (hasNext ? 0 : 1),
         controller: _scrollController,
       );
 }

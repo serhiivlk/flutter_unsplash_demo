@@ -1,39 +1,59 @@
 part of 'latest_photos_bloc.dart';
 
 @immutable
-abstract class LatestPhotosState extends Equatable {
+class LatestPhotosState extends Equatable {
+  final bool isLoading;
 
-  @override
-  List<Object> get props => [];
-
-}
-
-class Empty extends LatestPhotosState {}
-
-class Loading extends LatestPhotosState {}
-
-class Loaded extends LatestPhotosState {
   final List<PhotoEntity> photos;
-  final int pageCount;
   final bool hasReachedEndOfResults;
 
-  Loaded({
+  final String error;
+
+  bool get isEmpty => photos.isEmpty;
+
+  const LatestPhotosState({
+    @required this.isLoading,
     @required this.photos,
-    @required this.pageCount,
     @required this.hasReachedEndOfResults,
+    @required this.error,
   });
 
   @override
-  List<Object> get props => [photos, pageCount, hasReachedEndOfResults];
-}
+  List<Object> get props => [
+        isLoading,
+        photos,
+        hasReachedEndOfResults,
+        error,
+      ];
 
-class Error extends LatestPhotosState {
-  final String message;
-
-  Error({
-    @required this.message,
-  });
+  LatestPhotosState copyWith({
+    bool isLoading,
+    List<PhotoEntity> photos,
+    bool hasReachedEndOfResults,
+    String error,
+  }) {
+    return LatestPhotosState(
+      isLoading: isLoading ?? this.isLoading,
+      photos: photos ?? this.photos,
+      hasReachedEndOfResults:
+          hasReachedEndOfResults ?? this.hasReachedEndOfResults,
+      error: error ?? this.error,
+    );
+  }
 
   @override
-  List<Object> get props => [message];
+  String toString() => '''
+      LatestPhotosState {
+        isLoading: $isLoading,
+        photos: ${photos.length},
+        hasReachedEndOfResults: $hasReachedEndOfResults,
+        error: $error
+      ''';
+
+  factory LatestPhotosState.initial() => LatestPhotosState(
+        isLoading: false,
+        photos: <PhotoEntity>[],
+        hasReachedEndOfResults: false,
+        error: '',
+      );
 }

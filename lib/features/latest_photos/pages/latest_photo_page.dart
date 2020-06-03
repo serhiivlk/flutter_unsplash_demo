@@ -26,7 +26,7 @@ class LatestPhotosPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => LatestPhotosBloc(
           getLatestPhotosPerPage: injector(),
-        )..add(FetchNextPage()),
+        )..add(Initialize()),
         child: LatestPhotosBody(),
       ),
     );

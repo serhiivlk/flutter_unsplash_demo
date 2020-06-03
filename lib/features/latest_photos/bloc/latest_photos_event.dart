@@ -6,4 +6,6 @@ abstract class LatestPhotosEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class Initialize extends LatestPhotosEvent {}
+
 class FetchNextPage extends LatestPhotosEvent {}
